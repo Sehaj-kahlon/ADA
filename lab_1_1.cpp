@@ -9,7 +9,6 @@ const int n1 = 1e9 + 7;
 const int mod = 1000000007;
 class GFG
 {
-
     // Returns count of ways to reach n-th stair
     // using 1 or 2 or 3 steps.
 public:
