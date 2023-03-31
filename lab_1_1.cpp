@@ -16,7 +16,7 @@ using namespace std;
 const int n1 = 1e9 + 7;
 #define ll long long
 const int mod = 1000000007;
-class GFG
+class solve
 {
 public:
     int findStep(int n)
@@ -35,8 +35,7 @@ int main()
 {
     int n;
     cin >> n;
-    GFG obj;
+    solve obj;
     cout << obj.findStep(n) << endl;
-    ;
     return 0;
 }
