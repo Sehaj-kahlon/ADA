@@ -12,13 +12,13 @@
 using namespace std;
 const int n1 = 1e9 + 7;
 #define ll long long
-vector<int> res(0);
+
 vector<int> solve(int a, vector<int> &v)
 {
     // max possible lenght of the ans
     // find the least element in the vector v
-
-    // array of relevaant friends
+    vector<int> res;
+    // to find the min element
     if (v.size() == 0)
     {
         return res;
@@ -71,7 +71,12 @@ int main()
     {
         cin >> v[i];
     }
-    // output
+    vector<int> ans(0);
+    ans = solve(a, v);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i] << " ";
+    }
 
     return 0;
 }
