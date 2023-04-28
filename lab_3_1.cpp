@@ -59,3 +59,5 @@ int main()
     }
     return 0;
 }
+// Time Complexity: O(N2).
+// Auxiliary Space: O(N) use of Stack
