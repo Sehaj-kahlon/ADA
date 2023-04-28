@@ -7,3 +7,71 @@
 
 //     Return an array of integer,
 //     as described in the problem statement.
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+const int n1 = 1e9 + 7;
+#define ll long long
+vector<int> res(0);
+vector<int> solve(int a, vector<int> &v)
+{
+    // max possible lenght of the ans
+    // find the least element in the vector v
+
+    // array of relevaant friends
+    if (v.size() == 0)
+    {
+        return res;
+    }
+    int cur_min = INT_MAX;
+    // friends to be considered for ans
+    vector<int> v1(v.size());
+    for (int i = v.size() - 1; i >= 0; i--)
+    {
+        if (v[i] < cur_min)
+        {
+            cur_min = v[i];
+        }
+        v1[i] = cur_min;
+    }
+    int length = a / v1[0];
+    if (length == 0)
+    {
+        return res;
+    }
+    int j = 0;
+    while (length)
+    {
+        if ((a - v[j]) >= (length - 1) * v1[j])
+        {
+            res.push_back(j);
+            length--;
+            a -= v[j];
+        }
+        else
+        {
+            j++;
+        }
+    }
+    return res;
+}
+
+int main()
+{
+    // inputs
+    // n friends
+    int n;
+    cin >> n;
+    // a strength of tushar
+    int a;
+    cin >> a;
+    // array denoting strengths of different friends
+    vector<int> v(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> v[i];
+    }
+    // output
+
+    return 0;
+}
