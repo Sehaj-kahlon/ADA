@@ -41,3 +41,4 @@ int main()
     }
     return 0;
 }
+// tc: o(n/3) == 0(n); sc o(1)
