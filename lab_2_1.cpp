@@ -35,3 +35,4 @@ int main()
     }
     return 0;
 }
+//tcc: O(n/2) == O(n) ; sc: o(1)

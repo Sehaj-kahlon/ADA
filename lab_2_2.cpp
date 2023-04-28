@@ -7,6 +7,7 @@ const int n1 = 1e9 + 7;
 // program to find power one raised to another
 int power(int a, int b)
 {
+    // base condition
     if (a == 0)
     {
         return 0;
@@ -27,4 +28,5 @@ int main()
     cout << power(a, b);
     return 0;
 }
-// show invalid if any alphabet is input
+// Time Complexity: O(n)
+// Auxiliary Space: O(n) -- size of the recursive stack
