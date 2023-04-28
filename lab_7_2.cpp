@@ -66,6 +66,6 @@ return result;
 
 int main()
 {
-    // cout<<calculatePrimsMST()
+    // cout<<calculatePrimsMST();
     return 0;
 }

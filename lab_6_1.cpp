@@ -1,5 +1,5 @@
 // Lab Assignment 6:
-//  Given an M × N matrix, which is row-wise and column-wise sorted (with all strictly increasing elements in any row or column), write a program in Python to report all occurrences of a given element in it in linear time.
+//  Given an M × N matrix, which is row-wise and column-wise sorted (with all strictly increasing elements in any row or column), write a program in to report all occurrences of a given element in it in linear time.
 
 // For example,
 
@@ -59,7 +59,7 @@ vector<pair<int, int>> search(vector<vector<int>> mat, int n, int x)
             i++;
     }
 
-    cout << "n Element not found";
+    // cout << "n Element not found";
     return res;
 }
 int main()
@@ -92,6 +92,5 @@ int main()
     {
         cout << a[i].first;
     }
-
     return 0;
 }
