@@ -68,9 +68,9 @@ int editDistance(string a , string b, int m, int n){
    //recursive call on the arrays with last elements removed
   return editDistance(a, b, m-1, n-1);
  }
- //if the last characters are not same - consider all the three operations replace delete and insert
+ //if the last characters are not same - consider all the three operations insert remove and replace
  else {
-   return 1 + min({editDistance(a, b,m, n-1), editDistance(a, b, m-1, n-1), editDistance(a, b, m-1, n-1)});
+   return 1 + min({editDistance(a, b,m, n-1), editDistance(a, b, m-1, n), editDistance(a, b, m-1, n-1)});
  }
 }
 int main()
