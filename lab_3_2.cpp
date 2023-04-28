@@ -11,13 +11,16 @@ void permute(string ip, string op)
     }
     char ch = tolower(ip[0]);
     char ch2 = toupper(ip[0]);
+    // removing front char one at a time
     ip = ip.substr(1);
     permute(ip, op + ch);
     permute(ip, op + ch2);
 }
 int main()
 {
-    string ip = "aB";
+    string ip = "aBA";
     permute(ip, "");
     return 0;
 }
+// Time Complexity: O(n*2n))
+// Auxiliary Space: O(n)

@@ -1,143 +1,129 @@
-/*Write a Python program to perform Matrix multiplication using Strassen's method*/
-// Strassen’s Matrix Multiplication
 #include <bits/stdc++.h>
 using namespace std;
 
-// Size of two matrices
 #define ROW_1 4
 #define COL_1 4
+
 #define ROW_2 4
 #define COL_2 4
 
-// print the matrix
-void print(vector<vector<int> > matrix) {
-	for(int i = 0; i < matrix.size(); i++){
-        for(int j = 0; j < matrix[i].size(); j++){
-            cout << matrix[i][j] << ' ';
-        }
-        cout << endl;
-    }
+void print(string display, vector<vector<int>> matrix,
+		   int start_row, int start_column, int end_row,
+		   int end_column)
+{
+	cout << endl
+		 << display << " =>" << endl;
+	for (int i = start_row; i <= end_row; i++)
+	{
+		for (int j = start_column; j <= end_column; j++)
+		{
+			cout << setw(10);
+			cout << matrix[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
+	return;
 }
 
-// Add two matrices and return the result
-vector<vector<int>> add(vector<vector<int> > A, vector<vector<int> > B, int split_index, int multiplier = 1) {
+void add_matrix(vector<vector<int>> matrix_A,
+				vector<vector<int>> matrix_B,
+				vector<vector<int>> &matrix_C,
+				int split_index)
+{
 	for (auto i = 0; i < split_index; i++)
 		for (auto j = 0; j < split_index; j++)
-			A[i][j] = A[i][j] + (multiplier * B[i][j]);
-	return A;
+			matrix_C[i][j] = matrix_A[i][j] + matrix_B[i][j];
 }
 
-vector<vector<int> >
-strassen_multiplication(vector<vector<int> > A, vector<vector<int> > B) {
-	
-	// calculating the size of matrix
-	int col_1 = A[0].size();
-	int row_1 = A.size();
-	int col_2 = B[0].size();
-	int row_2 = B.size();
+vector<vector<int>>
+multiply_matrix(vector<vector<int>> matrix_A,
+				vector<vector<int>> matrix_B)
+{
+	int col_1 = matrix_A[0].size();
+	int row_1 = matrix_A.size();
+	int col_2 = matrix_B[0].size();
+	int row_2 = matrix_B.size();
 
-	// checking if multiplication is possible or not 
-	// between the input matrices
-	if (col_1 != row_2) {
-		cout << "The Two Matrices cannot be multiplied";
+	if (col_1 != row_2)
+	{
+		cout << "\nError: The number of columns in Matrix "
+				"A  must be equal to the number of rows in "
+				"Matrix B\n";
 		return {};
 	}
 
-	// creating an empty matrix to store the result
-	vector<int> result_row(col_2, 0);
-	vector<vector<int> > result(row_1, result_row);
+	vector<int> result_matrix_row(col_2, 0);
+	vector<vector<int>> result_matrix(row_1,
+									  result_matrix_row);
 
-	// Base case 
-	// if size of matrix is 1
 	if (col_1 == 1)
-		result[0][0]
-			= A[0][0] * B[0][0];
-	else {
-
-		// split index
+		result_matrix[0][0] = matrix_A[0][0] * matrix_B[0][0];
+	else
+	{
 		int split_index = col_1 / 2;
 
 		vector<int> row_vector(split_index, 0);
+		vector<vector<int>> result_matrix_00(split_index,
+											 row_vector);
+		vector<vector<int>> result_matrix_01(split_index,
+											 row_vector);
+		vector<vector<int>> result_matrix_10(split_index,
+											 row_vector);
+		vector<vector<int>> result_matrix_11(split_index,
+											 row_vector);
 
-		// Splitting the matrices in sub matrices
-		vector<vector<int> > a00(split_index, row_vector);
-		vector<vector<int> > a01(split_index, row_vector);
-		vector<vector<int> > a10(split_index, row_vector);
-		vector<vector<int> > a11(split_index, row_vector);
-		vector<vector<int> > b00(split_index, row_vector);
-		vector<vector<int> > b01(split_index, row_vector);
-		vector<vector<int> > b10(split_index, row_vector);
-		vector<vector<int> > b11(split_index, row_vector);
+		vector<vector<int>> a00(split_index, row_vector);
+		vector<vector<int>> a01(split_index, row_vector);
+		vector<vector<int>> a10(split_index, row_vector);
+		vector<vector<int>> a11(split_index, row_vector);
+		vector<vector<int>> b00(split_index, row_vector);
+		vector<vector<int>> b01(split_index, row_vector);
+		vector<vector<int>> b10(split_index, row_vector);
+		vector<vector<int>> b11(split_index, row_vector);
 
-		// calculating and storing the result
-		// inside our quadrants
 		for (auto i = 0; i < split_index; i++)
-			for (auto j = 0; j < split_index; j++) {
-				a00[i][j] = A[i][j];
-				a01[i][j] = A[i][j + split_index];
-				a10[i][j] = A[split_index + i][j];
-				a11[i][j] = A[i + split_index]
+			for (auto j = 0; j < split_index; j++)
+			{
+				a00[i][j] = matrix_A[i][j];
+				a01[i][j] = matrix_A[i][j + split_index];
+				a10[i][j] = matrix_A[split_index + i][j];
+				a11[i][j] = matrix_A[i + split_index]
 									[j + split_index];
-				b00[i][j] = B[i][j];
-				b01[i][j] = B[i][j + split_index];
-				b10[i][j] = B[split_index + i][j];
-				b11[i][j] = B[i + split_index]
+				b00[i][j] = matrix_B[i][j];
+				b01[i][j] = matrix_B[i][j + split_index];
+				b10[i][j] = matrix_B[split_index + i][j];
+				b11[i][j] = matrix_B[i + split_index]
 									[j + split_index];
 			}
 
-		// Calculating the multiplication using the formula
-		// given by strassent algorithm
-		vector<vector<int>> p1(
-			strassen_multiplication(a00, add(b01, b11, split_index, -1))
-		);
-		vector<vector<int>> p2(
-			strassen_multiplication(add(a00, a01, split_index), b11)
-		);
-		vector<vector<int>> p3(
-			strassen_multiplication(add(a10, a11, split_index), b00)
-		);
-		vector<vector<int>> p4(
-			strassen_multiplication(a11, add(b10, b00, split_index, -1))
-		);
-		vector<vector<int>> p5(
-			strassen_multiplication(add(a00, a11, split_index),add(b00, b11, split_index))
-		);
-		vector<vector<int>> p6(
-			strassen_multiplication(add(a01, a11, split_index, -1),add(b10, b11, split_index))
-		);
-		vector<vector<int>> p7(
-			strassen_multiplication(
-				add(a00, a10, split_index, -1),
-				add(b00, b01, split_index)
-			)
-		);
+		add_matrix(multiply_matrix(a00, b00),
+				   multiply_matrix(a01, b10),
+				   result_matrix_00, split_index);
+		add_matrix(multiply_matrix(a00, b01),
+				   multiply_matrix(a01, b11),
+				   result_matrix_01, split_index);
+		add_matrix(multiply_matrix(a10, b00),
+				   multiply_matrix(a11, b10),
+				   result_matrix_10, split_index);
+		add_matrix(multiply_matrix(a10, b01),
+				   multiply_matrix(a11, b11),
+				   result_matrix_11, split_index);
 
-		// calculating the result
-		vector<vector<int> > result_00(
-			add(add(add(p5, p4, split_index), p6, split_index), p2, split_index, -1)
-		);
-		vector<vector<int> > result_01(
-			add(p1, p2, split_index)
-		);
-		vector<vector<int> > result_10(	
-			add(p3, p4, split_index)
-		);
-		vector<vector<int> > result_11(
-			add(add(add(p5, p1, split_index), p3, split_index, -1), p7, split_index, -1)
-		);
-
-		// calulating and storing the result
-		// inside matrix
-		for (auto i = 0; i < split_index; i++){
-			for (auto j = 0; j < split_index; j++) {
-				result[i][j] = result_00[i][j];
-				result[i][j + split_index] = result_01[i][j];
-				result[split_index + i][j] = result_10[i][j];
-				result[i + split_index][j + split_index] = result_11[i][j];
+		for (auto i = 0; i < split_index; i++)
+			for (auto j = 0; j < split_index; j++)
+			{
+				result_matrix[i][j] = result_matrix_00[i][j];
+				result_matrix[i][j + split_index] = result_matrix_01[i][j];
+				result_matrix[split_index + i][j] = result_matrix_10[i][j];
+				result_matrix[i + split_index]
+							 [j + split_index] = result_matrix_11[i][j];
 			}
-		}
 
-		// clearing all the arrays
+		result_matrix_00.clear();
+		result_matrix_01.clear();
+		result_matrix_10.clear();
+		result_matrix_11.clear();
 		a00.clear();
 		a01.clear();
 		a10.clear();
@@ -146,32 +132,32 @@ strassen_multiplication(vector<vector<int> > A, vector<vector<int> > B) {
 		b01.clear();
 		b10.clear();
 		b11.clear();
-		p1.clear();
-		p2.clear();
-		p3.clear();
-		p4.clear();
-		p5.clear();
-		p6.clear();
-		p7.clear();
-		result_00.clear();
-		result_01.clear();
-		result_10.clear();
-		result_11.clear();
 	}
-	return result;
+	return result_matrix;
 }
 
-int main() {
+int main()
+{
+	vector<vector<int>> matrix_A = {{1, 1, 1, 1},
+									{2, 2, 2, 2},
+									{3, 3, 3, 3},
+									{2, 2, 2, 2}};
 
-    // Input Matrix A
-	vector<vector<int>> A = {{2, 2, 3, 1},{1, 4, 1, 2},{2, 3, 1, 1}, {1, 3, 1, 2}};
-    
-	// Input Matrix B
-    vector<vector<int>> B = {{2, 1, 2, 1},{3, 1, 2, 1},{3, 2, 1, 1}, {1, 4, 3, 2}};
+	print("Array A", matrix_A, 0, 0, ROW_1 - 1, COL_1 - 1);
 
-    // Getting the result
-	vector<vector<int> > result(strassen_multiplication(A, B));
+	vector<vector<int>> matrix_B = {{1, 1, 1, 1},
+									{2, 2, 2, 2},
+									{3, 3, 3, 3},
+									{2, 2, 2, 2}};
 
-    // Printing the result
-	print(result);
+	print("Array B", matrix_B, 0, 0, ROW_2 - 1, COL_2 - 1);
+
+	vector<vector<int>> result_matrix(
+		multiply_matrix(matrix_A, matrix_B));
+
+	print("Result Array", result_matrix, 0, 0, ROW_1 - 1,
+		  COL_2 - 1);
 }
+
+// Time Complexity: O(n^3)
+// Code Contributed By: lucasletum
