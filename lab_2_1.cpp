@@ -4,7 +4,7 @@
 using namespace std;
 const int n1 = 1e9 + 7;
 #define ll long long
-// find the funciton is pallindrome or not
+// simple check if the arr is similar from front and back
 bool isPallin(string s, int n)
 {
     bool ans = true;
@@ -23,6 +23,7 @@ int main()
     string s;
     cin >> s;
     int n = s.size();
+    // transform all the letter of the string to lowecase
     transform(s.begin(), s.end(), s.begin(), ::tolower);
     if (isPallin(s, n))
     {
